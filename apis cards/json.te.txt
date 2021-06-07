@@ -1,0 +1,38 @@
+[
+    {"Name":"AHMAD","Age":33 , "City":"Casa"},
+    {"Name":"Siomon","Age":20 , "City":"New yourk"},
+    {"Name":"Alex","Age":22 , "City":"London"}
+]
+
+
+
+ div_cont.innerHTML += ` 
+            <div class="row">
+            <div class="card mb-3 col-lg-12" >
+                <div class="row ">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Name : ${users[i].name}</h5>
+                            <p class="card-text"> Username :${users[i].username}</p>
+                            <p class="card-text"> Email ${users[i].email}</p>
+                            <hr>Address
+                            <p class="card-text">${users[i].address.street}</p>
+                            <p class="card-text">${users[i].address.suite}</p>
+                            <p class="card-text">${users[i].address.city}</p>
+                            <p class="card-text">${users[i].address.zipcode}</p>
+                            <hr>
+                            <hr>
+                            <p class="card-text">${users[i].phone}</p>
+                            <p class="card-text">${users[i].website}</p>
+                            <hr>
+                            <p class="card-text">${users[i].company.name}</p>
+                            <p class="card-text">${users[i].company.catchPhras}</p>
+                            <p class="card-text">${users[i].company.bs}</p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            </div> `
+
+
