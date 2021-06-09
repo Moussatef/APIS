@@ -69,6 +69,18 @@ class Etudiant
 
     public function Delete_Etudiant()
     {
-        $req = "";
+        $req = "DELETE FROM personne WHERE ID_PERSON = ?";
+
+        $stmt = $this->conn->prepare($req);
+
+        $this->ID_PERSON = htmlspecialchars(strip_tags($this->ID_PERSON));
+
+        if ($stmt->execute([$this->ID_PERSON]))
+            return true;
+
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt->error);
+
+        return false;
     }
 }
