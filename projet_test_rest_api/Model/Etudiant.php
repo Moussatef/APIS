@@ -28,6 +28,30 @@ class Etudiant
 
         return $stmt;
     }
+    public function get_student()
+    {
+        $req = "SELECT * FROM personne p INNER JOIN personne_etud e on p.ID_PERSON = e.ID_PERSON WHERE p.ID_PERSON = ? LIMIT 0,1";
+
+        // Prepare statement
+        $stmt = $this->conn->prepare($req);
+
+        // Bind ID
+        $stmt->bindParam(1, $this->ID_PERSON);
+
+        // Execute query
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Set properties
+        $this->ID_ETUDIANT = $row['ID_ETUDIANT'];
+        $this->ID_PERSON = $row['ID_PERSON'];
+        $this->NOM = $row['NOM'];
+        $this->PRENOM = $row['PRENOM'];
+        $this->AGE = $row['AGE'];
+        $this->EMAIL = $row['EMAIL'];
+        $this->PASSWORD = $row['PASSWORD'];
+    }
     public function Insert_Etudiant()
     {
         $req = "";
