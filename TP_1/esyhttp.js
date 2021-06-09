@@ -8,6 +8,7 @@ easyHttp.prototype.get = function (url) {
     let self = this;
     this.http.onload = function () {
         if (self.http.status === 200) {
+            // console.log(JSON.parse(self.http.responseText));
             console.log(self.http.responseText);
         }
     }
