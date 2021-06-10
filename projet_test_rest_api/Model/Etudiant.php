@@ -54,7 +54,59 @@ class Etudiant
     }
     public function Insert_Etudiant()
     {
-        $req = "";
+        $cmp = 0;
+        $req_check_email = "SELECT EMAIL FROM personne WHERE email=?";
+        $req1 = "INSERT INTO personne 
+                SET NOM = ? , PRENOM = ? , AGE = ? , EMAIL = ? , PASSWORD = ?";
+
+        $req2 = "SELECT ID_PERSON FROM personne ORDER BY ID_PERSON DESC LIMIT 1 ";
+        $req3 = "INSERT INTO personne_etud SET ID_PERSON = ? , ID_ClasseETD = 4";
+
+
+        //chack if Email is already exeste in table on database
+        $stmt = $this->conn->prepare($req_check_email);
+
+
+
+        // Clean data
+        $this->NOM = htmlspecialchars(strip_tags($this->NOM));
+        $this->PRENOM = htmlspecialchars(strip_tags($this->PRENOM));
+        $this->AGE = htmlspecialchars(strip_tags($this->AGE));
+        $this->EMAIL = htmlspecialchars(strip_tags($this->EMAIL));
+        $this->PASSWORD = htmlspecialchars(strip_tags($this->PASSWORD));
+
+        $stmt->execute([$this->EMAIL]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $numRow = $stmt->rowCount();
+        if ($numRow > 0) {
+            printf("Email : %s already existe ...!!\n", $row['EMAIL']);
+            return false;
+        }
+
+
+        $stmt1 = $this->conn->prepare($req1);
+        if ($stmt1->execute([$this->NOM, $this->PRENOM, $this->AGE, $this->EMAIL, $this->PASSWORD]))
+            $cmp++;
+
+        if ($stmt2 = $this->conn->query($req2))
+            $cmp++;
+
+        $row = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+        $this->ID_PERSON = $row['ID_PERSON'];
+
+        $stmt3 = $this->conn->prepare($req3);
+        if ($stmt3->execute([$this->ID_PERSON]))
+            $cmp++;
+
+        if ($cmp === 3)
+            return true;
+
+
+        // Print error if something goes wrong
+        printf("Error: %s.\n", $stmt1->error, $stmt2->error, $stmt3->error);
+
+        return false;
     }
 
     public function Update_Etudiant()
